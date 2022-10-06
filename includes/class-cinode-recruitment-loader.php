@@ -3,7 +3,7 @@
 /**
  * Register all actions and filters for the plugin
  *
- * @link       cinode.com
+ * @link       polarcape.com
  * @since      1.0.0
  *
  * @package    Cinode_Recruitment
@@ -19,7 +19,7 @@
  *
  * @package    Cinode_Recruitment
  * @subpackage Cinode_Recruitment/includes
- * @author     Cinode <info@cinode.com>
+ * @author     Polar Cape <info@polarcape.com>
  */
 class Cinode_Recruitment_Loader {
 

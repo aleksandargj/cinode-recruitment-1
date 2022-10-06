@@ -3,7 +3,7 @@
 /**
  * The admin-specific functionality of the plugin.
  *
- * @link       cinode.com
+ * @link       polarcape.com
  * @since      1.0.0
  *
  * @package    Cinode_Recruitment
@@ -18,7 +18,7 @@
  *
  * @package    Cinode_Recruitment
  * @subpackage Cinode_Recruitment/admin
- * @author     Cinode <info@cinode.com>
+ * @author     Polar Cape <info@polarcape.com>
  */
 class Cinode_Recruitment_Admin {
 

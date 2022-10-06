@@ -5,7 +5,7 @@
  *
  * This file is used to markup the public-facing aspects of the plugin.
  *
- * @link       cinode.com
+ * @link       polarcape.com
  * @since      1.0.0
  *
  * @package    Cinode_Recruitment
