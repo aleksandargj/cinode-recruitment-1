@@ -8,7 +8,7 @@
  * registers the activation and deactivation functions, and defines a function
  * that starts the plugin.
  *
- * @link              polarcape.com
+ * @link              cinode.com
  * @since             1.0.0
  * @package           Cinode_Recruitment
  *
@@ -17,8 +17,8 @@
  * Plugin URI:        cinode.com
  * Description:       This is Cinode Candidate Recruitment plugin. 
  * Version:           1.0.0
- * Author:            Polar Cape
- * Author URI:        polarcape.com
+ * Author:            Cinode
+ * Author URI:        cinode.com
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       cinode-recruitment

@@ -6,7 +6,7 @@
  * Loads and defines the internationalization files for this plugin
  * so that it is ready for translation.
  *
- * @link       polarcape.com
+ * @link       cinode.com
  * @since      1.0.0
  *
  * @package    Cinode_Recruitment
@@ -22,7 +22,7 @@
  * @since      1.0.0
  * @package    Cinode_Recruitment
  * @subpackage Cinode_Recruitment/includes
- * @author     Polar Cape <info@polarcape.com>
+ * @author     Cinode <info@cinode.com>
  */
 class Cinode_Recruitment_i18n {
 

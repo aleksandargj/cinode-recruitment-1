@@ -6,7 +6,7 @@
  * A class definition that includes attributes and functions used across both the
  * public-facing side of the site and the admin area.
  *
- * @link       polarcape.com
+ * @link       cinode.com
  * @since      1.0.0
  *
  * @package    Cinode_Recruitment
@@ -25,7 +25,7 @@
  * @since      1.0.0
  * @package    Cinode_Recruitment
  * @subpackage Cinode_Recruitment/includes
- * @author     Polar Cape <info@polarcape.com>
+ * @author     Cinode <info@cinode.com>
  */
 class Cinode_Recruitment {
 

@@ -5,7 +5,7 @@
  *
  * This file is used to markup the admin-facing aspects of the plugin.
  *
- * @link       polarcape.com
+ * @link       cinode.com
  * @since      1.0.0
  *
  * @package    Cinode_Recruitment
