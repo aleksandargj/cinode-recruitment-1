@@ -319,9 +319,6 @@ function cinode_recruitment_register_settings()
 	//register our settings
 	register_setting('cinode_recruitment-settings-group', 'cinode_recruitment_options', 'cinode_recruitment_sanitize_options');
 	register_setting('cinode_recruitment-settings-mail', 'cinode_recruitment_options_sendmail', 'cinode_recruitment_sanitize_options_sendmail');
-
-	
-
 }
 
 function cinode_recruitment_sanitize_options($input)
@@ -409,7 +406,7 @@ function cinode_recruitment_companyAddresses($location_label)
 			<?php
 
 			for ($i = 0; $i < sizeof($json_response['addresses']); $i++) {
-				
+
 			?>
 				<option value="<?php echo $json_response['addresses'][$i]['id']; ?>"><?php echo $json_response['addresses'][$i]['city']; ?></option>
 			<?php
@@ -476,11 +473,11 @@ function cinode_recruitment_settings_page()
 			<?php settings_fields('cinode_recruitment-settings-mail');
 
 			$cinode_recruitment_options_sendmail = get_option('cinode_recruitment_options_sendmail');
-			if (!$cinode_recruitment_options_sendmail){
+			if (!$cinode_recruitment_options_sendmail) {
 				$cinode_recruitment_options_sendmail['option_subject'] = 'Thanks for your application';
 				$cinode_recruitment_options_sendmail['option_message'] = 'Thank you for your application. We will look into your application and get back to you soon.';
 			}
-			 ?>
+			?>
 			<p>Set confirmation mail to send to candidate.</p>
 			<table class="form-table">
 				<tr valign="top">
@@ -494,12 +491,12 @@ function cinode_recruitment_settings_page()
 				</tr>
 
 			</table>
-			
+
 			<p class="submit">
 				<input type="submit" class="button-primary" value="Save email message" />
 			</p>
 		</form>
-			<p>If you want to use custom SMTP server to send mail, please install WP mail SMTP plugin. </p>
+		<p>If you want to use custom SMTP server to send mail, please install WP mail SMTP plugin. </p>
 	</div>
 <?php
 }
@@ -626,7 +623,7 @@ function cinode_recruitment_shortcode($atts = [])
 			<?php echo $args['unsuccessful-submit-msg']; ?>
 		</div>
 	</div>
-	</div>
+	
 <?php
 
 	return ob_get_clean();
