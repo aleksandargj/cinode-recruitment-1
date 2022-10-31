@@ -256,7 +256,7 @@ function cinode_recruitment_upload_file($request, $candidateId)
 
 	$url_attach = 'https://api.cinode.app/v0.1/companies/' . $companyId . '/candidates/' . $candidateId . '/attachments';
 
-	$boundary = boundary();
+	$boundary = cinode_recruitment_boundary();
 
 	$body = '';
 	$body .= '--' . $boundary . "\r\n";
@@ -287,7 +287,7 @@ function cinode_recruitment_upload_file($request, $candidateId)
 	return $post_attach_result;
 }
 
-function boundary()
+function cinode_recruitment_boundary()
 {
 	$alphabet = "abcdefghijklmnopqrstuwxyzABCDEFGHIJKLMNOPQRSTUWXYZ0123456789";
 	$pass = array();
@@ -623,6 +623,5 @@ function cinode_recruitment_shortcode($atts = [])
 	</div>
 	
 <?php
-
 	return ob_get_clean();
 }
