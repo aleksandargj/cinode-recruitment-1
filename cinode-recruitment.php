@@ -163,6 +163,10 @@ function cinode_recruitment_route()
 						'type' => 'int',
 						'description' => 'campaignCode',
 					),
+					'availableFrom' => array(
+						'type' => 'int',
+						'description' => 'availableFrom',
+					),
 
 					'files' => array(),
 
@@ -197,7 +201,7 @@ function cinodeRecruitmentPost($postData)
 		'teamId' => $postData['teamId'],
 		'companyAddressId' => $postData['companyAddressId'],
 		'recruitmentSourceId' => $postData['recruitmentSourceId'],
-		'currencyId' => $postData['currencyId'],
+		'availableFromDate' => $postData['availableFrom'],
 	);
 
 
@@ -415,6 +419,13 @@ function cinode_recruitment_companyAddresses($location_label)
 	<?php
 	}
 }
+function cinode_recruitment_availableFrom($availableFrom_label){
+	?>
+	<label for="availableFrom"><?php echo $availableFrom_label; ?></label><br>
+	<input type="date" id="availableFrom" />
+	<br>
+	<?php 
+}
 function cinode_recruitment_settings_page()
 {
 	?>
@@ -516,6 +527,7 @@ function cinode_recruitment_shortcode($atts = [])
 		'recruitmentsourceid' => 0,
 		'campaigncode' => 0,
 		'currencyid' => 1,
+		'availableFrom' => 0,
 		// add custom labels
 		'firstname_label' => 'First name',
 		'lastname_label' => 'Last name',
@@ -524,6 +536,7 @@ function cinode_recruitment_shortcode($atts = [])
 		'message_label' => 'Message',
 		'linkedin_label' => 'LinkedIn Url',
 		'location_label' => 'Choose location:',
+		'availablefrom_label' => '',
 		'attachment_label' => 'Attachment',
 		'accept_label' => 'I accept that my personal data is processed in accordance with GDPR',
 		'privacy_url' => '',
@@ -552,6 +565,7 @@ function cinode_recruitment_shortcode($atts = [])
 					var recruitmentSourceId = <?php echo $args['recruitmentsourceid']; ?>;
 					var campaignCode = "<?php echo $args['campaigncode']; ?>";
 					var currencyId = <?php echo $args['currencyid']; ?>;
+					
 				</script>
 				<div>
 					<label><?php echo $args['firstname_label']; ?> *<br>
@@ -582,6 +596,12 @@ function cinode_recruitment_shortcode($atts = [])
 					if ($location_label!='')
 					{
 						cinode_recruitment_companyAddresses($location_label);
+					}
+					$availableFrom_label = $args['availablefrom_label'];
+					
+					if ($availableFrom_label!='')
+					{	
+						cinode_recruitment_availableFrom($availableFrom_label);
 					}
 					?>
 					<br>
