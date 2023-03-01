@@ -20,6 +20,15 @@ This section describes how to install the plugin and get it working.
 
 ## Releases
 
+### 1.4.0
+https://github.com/Cinode-Labs/cinode-recruitment/releases/tag/v1.4
+
+Update with the following feature:
+* Option to protect from spam with Google Recaptcha
+* Optional field set Available from date
+* Optional field for select Pipeline, Multiple pipelines
+* Update on submit button
+
 ### 1.3.0
 https://github.com/Cinode-Labs/cinode-recruitment/releases/tag/v1.3
 
