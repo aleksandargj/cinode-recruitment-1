@@ -405,7 +405,7 @@ function cinode_recruitment_settings_page()
 {
 	?>
 	<div class="wrap">
-		<h2>Cinode Recruitment Plugin Settings</h2>
+		<h2>Cinode Recruitment Plugin Options</h2>
 
 		<form method="post" action="options.php">
 			<?php settings_fields('cinode_recruitment-settings-group');
@@ -437,6 +437,23 @@ function cinode_recruitment_settings_page()
 			</p>
 		</form>
 
+
+		<h3>How to use shortcode</h3>
+
+		<p>Default shortcode: [cinode]</p>
+		<p>Insert your shortcode into your page or post.</p>
+
+		<p>If you want to set custom parametters for your recruitment, add one of the following combination of parameters. </p>
+
+		<p>[cinode pipelineId = "0" pipelineStageId = "0" recruitmentManagerId = "0" teamId = "0" recruitmentSourceId = "0" campaignCode = "0" currencyId = "1"]</p>
+		<p>If you want to setup pipelineId, you need to set pipelineStageId. <br>
+			Custom labels for the fields can be changed with tags in shortcode. Text must be inside the quotes "".</p>
+		<p> firstname_label="Custom Name" lastname_label="Custom Last Name" email_label="Custom e-mail" phone_label="Custom Phone" message_label="Custom Message" linkedin_label="Custom LinkedIn" location_label="Custom Location Label" attachment_label="Custom Attachment" accept_label="Custom Accept text" privacy_url="https://google.com" privacy_error="Please Accept GDPR" submitbutton_label="Custom Submit application" successful-submit-msg="Thanks for application" unsuccessful-submit-msg="App Not Send" requiredfield_msg="Custom Required Message"</p>
+		<p>All available shortcodes are:</p>
+		<p>[cinode pipelineId = "0" pipelineStageId = "0" recruitmentManagerId = "0" teamId = "0" recruitmentSourceId = "0" campaignCode = "0" currencyId = "1" firstname_label="Custom Name" lastname_label="Custom Last Name" email_label="Custom e-mail" phone_label="Custom Phone" message_label="Custom Message" linkedin_label="Custom LinkedIn" location_label="Custom Location Label" attachment_label="Custom Attachment" accept_label="Custom Accept text" privacy_url="https://google.com" privacy_error="Please Accept GDPR" submitbutton_label="Custom Submit application" successful-submit-msg="Thanks for application" unsuccessful-submit-msg="App Not Send" requiredfield_msg="Custom Required Message"]</p>
+	</div>
+<?php
+}
 
 
 add_shortcode('cinode', 'cinode_recruitment_shortcode');
@@ -541,7 +558,7 @@ function cinode_recruitment_shortcode($atts = [])
 								<span class="field-validation-valid" data-valmsg-for="Attachments" data-valmsg-replace="true"></span>
 							</div>
 
-
+							
 						</div>
 						<label id="file-name"></label>
 					</div>
