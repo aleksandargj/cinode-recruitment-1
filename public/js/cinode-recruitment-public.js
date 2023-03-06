@@ -1,8 +1,8 @@
 jQuery(document).ready(function ($) {
-  
   $("#Attachments").change(function () {
     $("#file-name").text(this.files[0].name);
   });
+
 
   $(this).on("submit", (event) => {
     event.preventDefault();
@@ -21,6 +21,7 @@ jQuery(document).ready(function ($) {
     );
     const file = $("input#Attachments")[0].files[0];
     const terms = $("#terms");
+    const availableFrom = $("#availableFrom");
 
     var formData = new FormData();
     if (terms[0].checked) {
@@ -65,6 +66,9 @@ jQuery(document).ready(function ($) {
 
         if (recruitmentSourceId) {
           formData.append("recruitmentSourceId", recruitmentSourceId);
+        }
+        if (availableFrom){
+          formData.append("availableFrom", availableFrom.val());
         }
         formData.append("campaignCode", campaignCode);
         formData.append("currencyId", currencyId);

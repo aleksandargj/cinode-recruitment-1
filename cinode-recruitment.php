@@ -163,6 +163,10 @@ function cinode_recruitment_route()
 						'type' => 'int',
 						'description' => 'campaignCode',
 					),
+					'availableFrom' => array(
+						'type' => 'int',
+						'description' => 'availableFrom',
+					),
 
 					'files' => array(),
 
@@ -197,7 +201,7 @@ function cinodeRecruitmentPost($postData)
 		'teamId' => $postData['teamId'],
 		'companyAddressId' => $postData['companyAddressId'],
 		'recruitmentSourceId' => $postData['recruitmentSourceId'],
-		'currencyId' => $postData['currencyId'],
+		'availableFromDate' => $postData['availableFrom'],
 	);
 
 
@@ -375,6 +379,13 @@ function cinode_recruitment_companyAddresses($location_label)
 	<?php
 	}
 }
+function cinode_recruitment_availableFrom($availableFrom_label){
+	?>
+	<label for="availableFrom"><?php echo $availableFrom_label; ?></label><br>
+	<input type="date" id="availableFrom" />
+	<br>
+	<?php 
+}
 
 function cinode_recruitment_multiplepipelines($multiplepipelines_label, $pipelines_string,$stageIds)
 {
@@ -400,6 +411,7 @@ function cinode_recruitment_multiplepipelines($multiplepipelines_label, $pipelin
 	}
 	echo "</select><br>";
 }
+
 
 function cinode_recruitment_settings_page()
 {
@@ -451,6 +463,37 @@ function cinode_recruitment_settings_page()
 		<p> firstname_label="Custom Name" lastname_label="Custom Last Name" email_label="Custom e-mail" phone_label="Custom Phone" message_label="Custom Message" linkedin_label="Custom LinkedIn" location_label="Custom Location Label" attachment_label="Custom Attachment" accept_label="Custom Accept text" privacy_url="https://google.com" privacy_error="Please Accept GDPR" submitbutton_label="Custom Submit application" successful-submit-msg="Thanks for application" unsuccessful-submit-msg="App Not Send" requiredfield_msg="Custom Required Message"</p>
 		<p>All available shortcodes are:</p>
 		<p>[cinode pipelineId = "0" pipelineStageId = "0" recruitmentManagerId = "0" teamId = "0" recruitmentSourceId = "0" campaignCode = "0" currencyId = "1" firstname_label="Custom Name" lastname_label="Custom Last Name" email_label="Custom e-mail" phone_label="Custom Phone" message_label="Custom Message" linkedin_label="Custom LinkedIn" location_label="Custom Location Label" attachment_label="Custom Attachment" accept_label="Custom Accept text" privacy_url="https://google.com" privacy_error="Please Accept GDPR" submitbutton_label="Custom Submit application" successful-submit-msg="Thanks for application" unsuccessful-submit-msg="App Not Send" requiredfield_msg="Custom Required Message"]</p>
+		<p>If you want to hide Location field use shortcode tag location_label="". If there is no text, field is not shown in the form.</p>
+		<h2>Send confirmation mail to candidate</h2>
+
+		<form method="post" action="options.php">
+			<?php settings_fields('cinode_recruitment-settings-mail');
+
+			$cinode_recruitment_options_sendmail = get_option('cinode_recruitment_options_sendmail');
+			if (!$cinode_recruitment_options_sendmail) {
+				$cinode_recruitment_options_sendmail['option_subject'] = 'Thanks for your application';
+				$cinode_recruitment_options_sendmail['option_message'] = 'Thank you for your application. We will look into your application and get back to you soon.';
+			}
+			?>
+			<p>Set confirmation mail to send to candidate.</p>
+			<table class="form-table">
+				<tr valign="top">
+					<th scope="row">Subject</th>
+					<td><input type="text" name="cinode_recruitment_options_sendmail[option_subject]" style="width:50%;" value="<?php echo esc_attr($cinode_recruitment_options_sendmail['option_subject']); ?>" /></td>
+				</tr>
+
+				<tr valign="top">
+					<th scope="row">Message body</th>
+					<td><input type="text" name="cinode_recruitment_options_sendmail[option_message]" style="width:50%;" value="<?php echo $cinode_recruitment_options_sendmail['option_message'] ?>" /></td>
+				</tr>
+
+			</table>
+
+			<p class="submit">
+				<input type="submit" class="button-primary" value="Save email message" />
+			</p>
+		</form>
+		<p>If you want to use custom SMTP server to send mail, please install WP mail SMTP plugin. </p>
 	</div>
 <?php
 }
@@ -471,6 +514,7 @@ function cinode_recruitment_shortcode($atts = [])
 		'recruitmentsourceid' => 0,
 		'campaigncode' => 0,
 		'currencyid' => 1,
+		'availableFrom' => 0,
 		'multiplepipelines' =>'',
 		'multiplepipelinestageid' => 0,
 		// add custom labels
@@ -481,6 +525,7 @@ function cinode_recruitment_shortcode($atts = [])
 		'message_label' => 'Message',
 		'linkedin_label' => 'LinkedIn Url',
 		'location_label' => 'Choose location:',
+		'availablefrom_label' => '',
 		'multiplepipelines_label' => '',
 		'attachment_label' => 'Attachment',
 		'accept_label' => 'I accept that my personal data is processed in accordance with GDPR',
@@ -510,6 +555,7 @@ function cinode_recruitment_shortcode($atts = [])
 					var recruitmentSourceId = <?php echo $args['recruitmentsourceid']; ?>;
 					var campaignCode = "<?php echo $args['campaigncode']; ?>";
 					var currencyId = <?php echo $args['currencyid']; ?>;
+					
 				</script>
 				<div>
 					<label><?php echo $args['firstname_label']; ?> *<br>
@@ -539,6 +585,12 @@ function cinode_recruitment_shortcode($atts = [])
 					$location_label = $args['location_label'];
 					if ($location_label != '') {
 						cinode_recruitment_companyAddresses($location_label);
+					}
+          
+					$availableFrom_label = $args['availablefrom_label'];
+					if ($availableFrom_label!='')
+					{	
+						cinode_recruitment_availableFrom($availableFrom_label);
 					}
 					
 					$multiplepipelines_label =$args['multiplepipelines_label'];
