@@ -16,7 +16,7 @@
  * Plugin Name:       Cinode recruitment plugin
  * Plugin URI:        cinode.com
  * Description:       This is Cinode Candidate Recruitment plugin. 
- * Version:           1.4.0
+ * Version:           1.3.0
  * Author:            Cinode
  * Author URI:        cinode.com
  * License:           GPL-2.0+
@@ -33,7 +33,7 @@ if (!defined('WPINC')) {
 /**
  * Currently plugin version.
  */
-define('CINODE_RECRUITMENT_VERSION', '1.4.0');
+define('CINODE_RECRUITMENT_VERSION', '1.3.0');
 
 /**
  * The code that runs during plugin activation.
@@ -304,6 +304,46 @@ function cinode_recruitment_boundary()
 }
 
 
+add_action('admin_menu', 'cinode_recruitment_create_menu');
+
+function cinode_recruitment_create_menu()
+{
+
+	$iconUrl = plugin_dir_url(__FILE__) . 'images/icon-24x24.png';
+	//create new top-level menu
+	add_menu_page('Cinode Recruitment Plugin Page', 'Cinode Recruitment Plugin', 'manage_options', 'cinode_recruitment_main_menu', 'cinode_recruitment_settings_page', $iconUrl);
+
+	//call register settings function
+	add_action('admin_init', 'cinode_recruitment_register_settings');
+}
+
+function cinode_recruitment_register_settings()
+{
+
+	//register our settings
+	register_setting('cinode_recruitment-settings-group', 'cinode_recruitment_options', 'cinode_recruitment_sanitize_options');
+	register_setting('cinode_recruitment-settings-mail', 'cinode_recruitment_options_sendmail', 'cinode_recruitment_sanitize_options_sendmail');
+}
+
+function cinode_recruitment_sanitize_options($input)
+{
+
+	$input['option_companyId']  = sanitize_text_field($input['option_companyId']);
+	$input['option_apiKey'] =  sanitize_text_field($input['option_apiKey']);
+
+
+	return $input;
+}
+function cinode_recruitment_sanitize_options_sendmail($input)
+{
+
+	$input['option_subject']  = sanitize_text_field($input['option_subject']);
+	$input['option_message'] =  sanitize_text_field($input['option_message']);
+
+
+	return $input;
+}
+
 function cinode_recruitment_apiTokenCheck()
 {
 	$cinode_recruitment_options = get_option('cinode_recruitment_options');
@@ -417,7 +457,7 @@ function cinode_recruitment_settings_page()
 {
 	?>
 	<div class="wrap">
-		<h2>Cinode Recruitment Plugin Options</h2>
+		<h2>Cinode Recruitment Plugin Settings</h2>
 
 		<form method="post" action="options.php">
 			<?php settings_fields('cinode_recruitment-settings-group');
@@ -610,7 +650,7 @@ function cinode_recruitment_shortcode($atts = [])
 								<span class="field-validation-valid" data-valmsg-for="Attachments" data-valmsg-replace="true"></span>
 							</div>
 
-							
+
 						</div>
 						<label id="file-name"></label>
 					</div>
@@ -620,9 +660,6 @@ function cinode_recruitment_shortcode($atts = [])
 						<?php echo $args['accept_label']; ?></a>
 					<br>
 					<span id="terms-validate" style="display:none; color:red;"> <?php echo $args['privacy_error']; ?></span>
-					<input type="hidden" name="g-recaptcha-response" value="" id="g-recaptcha-response">
-					<?php do_action( 'c4wp_captcha_form_field' ); ?>
-
 				</div>
 				<div class="row">
 					<div>
