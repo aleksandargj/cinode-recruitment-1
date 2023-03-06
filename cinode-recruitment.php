@@ -376,6 +376,67 @@ function cinode_recruitment_companyAddresses($location_label)
 	}
 }
 
+function cinode_recruitment_multiplepipelines($multiplepipelines_label, $pipelines_string,$stageIds)
+{
+	$pipelines_pairs = explode(',', $pipelines_string);
+	
+	$stage = explode(',',$stageIds);
+
+
+	foreach ($pipelines_pairs as $pair) {
+		$pipelines[] = explode(':', $pair);
+	}
+	
+
+	echo '<label for="SelectedPipeline">' . $multiplepipelines_label;
+	'</label>';
+	echo '<br><select id="selectedPipelineId">';
+	echo '<option value=""></option>';
+	
+	$i=0;
+	foreach($pipelines as $pair ){
+	  echo '<option value="'.$pair[0].'" stageId="'.$stage[$i].'">'.$pair[1].'</option>';
+	  $i++;
+	}
+	echo "</select><br>";
+}
+
+function cinode_recruitment_settings_page()
+{
+	?>
+	<div class="wrap">
+		<h2>Cinode Recruitment Plugin Settings</h2>
+
+		<form method="post" action="options.php">
+			<?php settings_fields('cinode_recruitment-settings-group');
+			$cinode_recruitment_options = get_option('cinode_recruitment_options');
+			$activatedPlugin = '';
+			$apiFieldVal = '';
+			if (cinode_recruitment_apiTokenCheck()) {
+				$activatedPlugin = 'Plugin is Activated!';
+				$apiFieldVal = '***';
+			}
+			wp_nonce_field('cinode_recruitment_settings_form_save', 'cinode_recruitment_nonce_field'); ?>
+			<p>Welcome to Cinode Recruitment Plugin settings page. Set your Company ID and API key.</p>
+			<table class="form-table">
+				<tr valign="top">
+					<th scope="row">Company ID</th>
+					<td><input type="text" name="cinode_recruitment_options[option_companyId]" value="<?php echo esc_attr($cinode_recruitment_options['option_companyId']); ?>" /></td>
+				</tr>
+
+				<tr valign="top">
+					<th scope="row">API Key</th>
+					<td><input type="password" name="cinode_recruitment_options[option_apiKey]" value="<?php echo $apiFieldVal ?>" /></td>
+				</tr>
+
+			</table>
+			<p style="color:green; font-weight:bold;"> <?php echo $activatedPlugin;  ?></p>
+
+			<p class="submit">
+				<input type="submit" class="button-primary" value="Save Changes" />
+			</p>
+		</form>
+
 
 
 add_shortcode('cinode', 'cinode_recruitment_shortcode');
@@ -393,6 +454,8 @@ function cinode_recruitment_shortcode($atts = [])
 		'recruitmentsourceid' => 0,
 		'campaigncode' => 0,
 		'currencyid' => 1,
+		'multiplepipelines' =>'',
+		'multiplepipelinestageid' => 0,
 		// add custom labels
 		'firstname_label' => 'First name',
 		'lastname_label' => 'Last name',
@@ -401,6 +464,7 @@ function cinode_recruitment_shortcode($atts = [])
 		'message_label' => 'Message',
 		'linkedin_label' => 'LinkedIn Url',
 		'location_label' => 'Choose location:',
+		'multiplepipelines_label' => '',
 		'attachment_label' => 'Attachment',
 		'accept_label' => 'I accept that my personal data is processed in accordance with GDPR',
 		'privacy_url' => '',
@@ -456,10 +520,17 @@ function cinode_recruitment_shortcode($atts = [])
 
 					<?php
 					$location_label = $args['location_label'];
-					if ($location_label!='')
-					{
+					if ($location_label != '') {
 						cinode_recruitment_companyAddresses($location_label);
 					}
+					
+					$multiplepipelines_label =$args['multiplepipelines_label'];
+					$pipelines_string = $args['multiplepipelines'];
+					$pipelines_stageId = $args['multiplepipelinestageid'];
+					if(($pipelines_string)){
+						cinode_recruitment_multiplepipelines($multiplepipelines_label, $pipelines_string, $pipelines_stageId);
+					}
+					
 					?>
 					<br>
 					<div class="block recruit-attachment">
@@ -484,28 +555,29 @@ function cinode_recruitment_shortcode($atts = [])
 					<?php do_action( 'c4wp_captcha_form_field' ); ?>
 
 				</div>
-		</div>
+				<div class="row">
+					<div>
+						<br>
+						<p><input type="submit" id="submit" value="<?php echo $args['submitbutton_label']; ?>"></p>
+					</div>
+				</div>
+				<div class="spinner" style="display: none;">
+					<div class="bounce1"></div>
+					<div class="bounce2"></div>
+					<div class="bounce3"></div>
+				</div>
 
-		<div class="row">
-			<div>
-				<br>
-				<p><input type="submit" id="submit" value="<?php echo $args['submitbutton_label']; ?>"></p>
-			</div>
+				<div class="alert" id="successful-submit-msg" style="display:none; background: green; color: white; text-align: center;">
+					<?php echo $args['successful-submit-msg']; ?>
+				</div>
+				<div class="alert" id="unsuccessful-submit-msg" style="display: none; background: red; color: white; text-align: center;">
+					<?php echo $args['unsuccessful-submit-msg']; ?>
+				</div>
+			</form>
 		</div>
-		<div class="spinner" style="display: none;">
-			<div class="bounce1"></div>
-			<div class="bounce2"></div>
-			<div class="bounce3"></div>
-		</div>
-
-		<div class="alert" id="successful-submit-msg" style="display:none; background: green; color: white; text-align: center;">
-			<?php echo $args['successful-submit-msg']; ?>
-		</div>
-		<div class="alert" id="unsuccessful-submit-msg" style="display: none; background: red; color: white; text-align: center;">
-			<?php echo $args['unsuccessful-submit-msg']; ?>
-		</div>
-		
 	</div>
+
+
 <?php
 	return ob_get_clean();
 }
