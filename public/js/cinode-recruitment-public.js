@@ -3,7 +3,10 @@ jQuery(document).ready(function ($) {
     $("#file-name").text(this.files[0].name);
   });
 
+
   $(this).on("submit", (event) => {
+    event.preventDefault();
+    
     $(".spinner").show();
     const email = $("#email-input");
     const first_name = $("#first_name-input");
@@ -19,8 +22,6 @@ jQuery(document).ready(function ($) {
     const file = $("input#Attachments")[0].files[0];
     const terms = $("#terms");
     const availableFrom = $("#availableFrom");
-
-    event.preventDefault();
 
     var formData = new FormData();
     if (terms[0].checked) {
