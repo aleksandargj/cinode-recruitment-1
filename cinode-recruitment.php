@@ -426,6 +426,33 @@ function cinode_recruitment_availableFrom($availableFrom_label){
 	<br>
 	<?php 
 }
+
+function cinode_recruitment_multiplepipelines($multiplepipelines_label, $pipelines_string,$stageIds)
+{
+	$pipelines_pairs = explode(',', $pipelines_string);
+	
+	$stage = explode(',',$stageIds);
+
+
+	foreach ($pipelines_pairs as $pair) {
+		$pipelines[] = explode(':', $pair);
+	}
+	
+
+	echo '<label for="SelectedPipeline">' . $multiplepipelines_label;
+	'</label>';
+	echo '<br><select id="selectedPipelineId">';
+	echo '<option value=""></option>';
+	
+	$i=0;
+	foreach($pipelines as $pair ){
+	  echo '<option value="'.$pair[0].'" stageId="'.$stage[$i].'">'.$pair[1].'</option>';
+	  $i++;
+	}
+	echo "</select><br>";
+}
+
+
 function cinode_recruitment_settings_page()
 {
 	?>
@@ -476,7 +503,7 @@ function cinode_recruitment_settings_page()
 		<p> firstname_label="Custom Name" lastname_label="Custom Last Name" email_label="Custom e-mail" phone_label="Custom Phone" message_label="Custom Message" linkedin_label="Custom LinkedIn" location_label="Custom Location Label" attachment_label="Custom Attachment" accept_label="Custom Accept text" privacy_url="https://google.com" privacy_error="Please Accept GDPR" submitbutton_label="Custom Submit application" successful-submit-msg="Thanks for application" unsuccessful-submit-msg="App Not Send" requiredfield_msg="Custom Required Message"</p>
 		<p>All available shortcodes are:</p>
 		<p>[cinode pipelineId = "0" pipelineStageId = "0" recruitmentManagerId = "0" teamId = "0" recruitmentSourceId = "0" campaignCode = "0" currencyId = "1" firstname_label="Custom Name" lastname_label="Custom Last Name" email_label="Custom e-mail" phone_label="Custom Phone" message_label="Custom Message" linkedin_label="Custom LinkedIn" location_label="Custom Location Label" attachment_label="Custom Attachment" accept_label="Custom Accept text" privacy_url="https://google.com" privacy_error="Please Accept GDPR" submitbutton_label="Custom Submit application" successful-submit-msg="Thanks for application" unsuccessful-submit-msg="App Not Send" requiredfield_msg="Custom Required Message"]</p>
-		<p>If you want to hide Location field use shortcode tag location_label="". If there is no text, field is not shown in the form.</p>	
+		<p>If you want to hide Location field use shortcode tag location_label="". If there is no text, field is not shown in the form.</p>
 		<h2>Send confirmation mail to candidate</h2>
 
 		<form method="post" action="options.php">
@@ -528,6 +555,8 @@ function cinode_recruitment_shortcode($atts = [])
 		'campaigncode' => 0,
 		'currencyid' => 1,
 		'availableFrom' => 0,
+		'multiplepipelines' =>'',
+		'multiplepipelinestageid' => 0,
 		// add custom labels
 		'firstname_label' => 'First name',
 		'lastname_label' => 'Last name',
@@ -537,6 +566,7 @@ function cinode_recruitment_shortcode($atts = [])
 		'linkedin_label' => 'LinkedIn Url',
 		'location_label' => 'Choose location:',
 		'availablefrom_label' => '',
+		'multiplepipelines_label' => '',
 		'attachment_label' => 'Attachment',
 		'accept_label' => 'I accept that my personal data is processed in accordance with GDPR',
 		'privacy_url' => '',
@@ -593,16 +623,23 @@ function cinode_recruitment_shortcode($atts = [])
 
 					<?php
 					$location_label = $args['location_label'];
-					if ($location_label!='')
-					{
+					if ($location_label != '') {
 						cinode_recruitment_companyAddresses($location_label);
 					}
+          
 					$availableFrom_label = $args['availablefrom_label'];
-					
 					if ($availableFrom_label!='')
 					{	
 						cinode_recruitment_availableFrom($availableFrom_label);
 					}
+					
+					$multiplepipelines_label =$args['multiplepipelines_label'];
+					$pipelines_string = $args['multiplepipelines'];
+					$pipelines_stageId = $args['multiplepipelinestageid'];
+					if(($pipelines_string)){
+						cinode_recruitment_multiplepipelines($multiplepipelines_label, $pipelines_string, $pipelines_stageId);
+					}
+					
 					?>
 					<br>
 					<div class="block recruit-attachment">
@@ -624,28 +661,29 @@ function cinode_recruitment_shortcode($atts = [])
 					<br>
 					<span id="terms-validate" style="display:none; color:red;"> <?php echo $args['privacy_error']; ?></span>
 				</div>
-		</div>
+				<div class="row">
+					<div>
+						<br>
+						<p><input type="submit" id="submit" value="<?php echo $args['submitbutton_label']; ?>"></p>
+					</div>
+				</div>
+				<div class="spinner" style="display: none;">
+					<div class="bounce1"></div>
+					<div class="bounce2"></div>
+					<div class="bounce3"></div>
+				</div>
 
-		<div class="row">
-			<div>
-				<br>
-				<p><input type="submit" id="submit" value="<?php echo $args['submitbutton_label']; ?>"></p>
-			</div>
-		</div>
-		<div class="spinner" style="display: none;">
-			<div class="bounce1"></div>
-			<div class="bounce2"></div>
-			<div class="bounce3"></div>
-		</div>
-
-		<div class="alert" id="successful-submit-msg" style="display:none; background: green; color: white; text-align: center;">
-			<?php echo $args['successful-submit-msg']; ?>
-		</div>
-		<div class="alert" id="unsuccessful-submit-msg" style="display: none; background: red; color: white; text-align: center;">
-			<?php echo $args['unsuccessful-submit-msg']; ?>
+				<div class="alert" id="successful-submit-msg" style="display:none; background: green; color: white; text-align: center;">
+					<?php echo $args['successful-submit-msg']; ?>
+				</div>
+				<div class="alert" id="unsuccessful-submit-msg" style="display: none; background: red; color: white; text-align: center;">
+					<?php echo $args['unsuccessful-submit-msg']; ?>
+				</div>
+			</form>
 		</div>
 	</div>
-	
+
+
 <?php
 	return ob_get_clean();
 }
